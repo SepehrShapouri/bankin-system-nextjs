@@ -44,7 +44,7 @@ function MobileNav({ user }: MobileNavProps) {
               Currensix
             </h1>
           </Link>
-          <div className="mobile-nav-sheet">
+          <div className="mobilenav-sheet">
             <SheetClose asChild>
               <nav className="flex h-full flex-col gap-6 pt-16 text-white">
                 {sidebarLinks.map((link) => {
