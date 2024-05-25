@@ -46,6 +46,10 @@ function AuthForm({ type }: AuthFormProps) {
         }
         const newUser = await signUp(userData)
         setUser(newUser);
+        toast({
+          title:'Hang in there boss',
+          description:'You are being redirected to your dashboard...'
+        })
       } else if (type === "sign-in") {
         const response = await signIn({
           email: data.email,
