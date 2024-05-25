@@ -11,11 +11,14 @@ import CustomInput from "./CustomInput";
 import { authFormSchema } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { getLoggedInUser, signIn, signUp } from "@/lib/actions/user.actions";
+import { useToast } from "./ui/use-toast";
 
 function AuthForm({ type }: AuthFormProps) {
   const formSchema = authFormSchema(type);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const {toast} = useToast()
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -28,16 +31,30 @@ function AuthForm({ type }: AuthFormProps) {
     setIsLoading(true);
     try {
       if (type === "sign-up") {
-        // const newUser = await signUp(data)
-        // setUser(newUser);
+        const newUser = await signUp(data)
+        setUser(newUser);
       } else if (type === "sign-in") {
-        // const response = await signIn({
-        //   email: data.email,
-        //   password: data.password,
-        // });
-        // if(response){
-        //     router.push('/')
-        // }
+        const response = await signIn({
+          email: data.email,
+          password: data.password,
+        });
+        const user = await response
+        if(user.code){
+          toast({
+            title:'Uh oh! Something went wrong.',
+            description:user.response.message,
+            variant:'destructive'
+          })
+          return;
+        }
+        if(user){
+          toast({
+            title:'Welcome back',
+            description:'You have successfully logged in to your account',
+            variant:'default'
+          })
+            router.push('/')
+        }
       }
     } catch (error) {
       console.log(error);
