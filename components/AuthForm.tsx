@@ -13,6 +13,7 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { getLoggedInUser, signIn, signUp } from "@/lib/actions/user.actions";
 import { useToast } from "./ui/use-toast";
+import PlaidLink from "./PlaidLink";
 
 function AuthForm({ type }: AuthFormProps) {
   const formSchema = authFormSchema(type);
@@ -87,8 +88,8 @@ function AuthForm({ type }: AuthFormProps) {
           </p>
         </div>
       </header>
-      {user ? (
-        <div className="flex flex-col gap-4">{/* <PlaidLink/> */}</div>
+      {!user ? (
+        <div className="flex flex-col gap-4"><PlaidLink user={user} variant="primary"/></div>
       ) : (
         <>
           <Form {...form}>
