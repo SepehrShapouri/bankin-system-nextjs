@@ -71,7 +71,10 @@ export const signUp = async ({password,...userData}: SignUpParams) => {
       type: "personal",
     });
 
-    if (!dwollaCustomerUrl) throw new Error("Error creating dwolla customer");
+    if (!dwollaCustomerUrl){
+      throw new Error("Error creating dwolla customer");
+      return {error:'Something went wrong, give it another shot!'}
+    }
 
     const dwollaCustomerId = extractCustomerIdFromUrl(dwollaCustomerUrl);
     const newUser = await database.createDocument(

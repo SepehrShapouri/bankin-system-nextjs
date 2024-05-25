@@ -1,4 +1,5 @@
 import HeaderBox from "@/components/HeaderBox";
+import RecentTransactions from "@/components/RecentTransactions";
 import RightSidebar from "@/components/RightSidebar";
 import TotalBalanceBox from "@/components/TotalBalanceBox";
 import { getAccount, getAccounts } from "@/lib/actions/bank.actions";
@@ -11,7 +12,7 @@ async function Home({searchParams:{id,page}}:SearchParamProps) {
   if(!accounts) return
   const appwriteItemId = (id as string) || accounts?.data[0]?.appwriteItemId
   const account = await getAccount({appwriteItemId})
-  console.log(account,accounts?.data)
+  const currentPage = Number(page as string) || 1
   return (
     <section className="home">
       <div className="home-content">
@@ -28,7 +29,7 @@ async function Home({searchParams:{id,page}}:SearchParamProps) {
             totalCurrentBalance={accounts?.totalCurrentBalance}
           />
         </header>
-        RECENT TRANSACTIONS
+        <RecentTransactions accounts={accounts?.data} transactions={account?.transactions} appwriteItemId={appwriteItemId} page={currentPage}/>
       </div>
       <RightSidebar
         user={loggedIn}
