@@ -5,12 +5,19 @@ import { BankTabItem } from "./BankTabItem";
 import BankInfo from "./BankInfo";
 import TransactionsTable from "./TransactionsTable";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
+import { Pagination } from "./Pagination";
+
 function RecentTransactions({
   accounts,
   transactions = [],
   appwriteItemId,
   page,
 }: RecentTransactionsProps) {
+  const rowsPerPage = 10
+  const totalPages = Math.ceil(transactions.length / rowsPerPage)
+  const indexOflastTr = page * rowsPerPage
+  const indexOfFirstTr = indexOflastTr - rowsPerPage
+  const currentTransactions = transactions.slice(indexOfFirstTr,indexOflastTr)
   return (
     <section className="recent-transactions">
       <header className="flex items-center justify-between">
@@ -49,7 +56,8 @@ function RecentTransactions({
                 key={account.id}
                 type="full"
               />
-              <TransactionsTable transactions={transactions}/>
+              <TransactionsTable transactions={currentTransactions}/>
+              {totalPages > 1 ? <div className="my-4 w-full">              <Pagination page={page} totalPages={totalPages} /></div> : null}
             </TabsContent>
           );
         })}
