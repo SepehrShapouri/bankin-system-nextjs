@@ -23,7 +23,6 @@ function CategoryBadge({category} : CategoryBadgeProps){
     )
 }
 function TransactionsTable({ transactions }: TransactionTableProps) {
-    console.log(transactions)
   return (
     <Table>
       <TableHeader className="bg-[#f9fafb]">
